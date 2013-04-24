@@ -187,10 +187,7 @@ int main(int argc, char **argv) {
 
   while (ros::ok()) {
 
-    ROS_INFO("pepe");
-
     for (int i = 0; i < trajectory.size(); i++) {
-      ROS_INFO("paco");
       std::cout << i << " " << trajectory[i].x << ", " << trajectory[i].y <<
       ", " << trajectory[i].z << " Dist=" << currentDistance << std::endl;
       T.makeTranslate(trajectory[i].x, trajectory[i].y, trajectory[i].z);
@@ -302,7 +299,6 @@ int main(int argc, char **argv) {
     // if (currentDistance <= 0.01) break;
   }
 
-  ROS_INFO("Survey has finised!");
 
   return 0;
 }
