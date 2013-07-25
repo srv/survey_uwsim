@@ -32,3 +32,5 @@ FIND_PACKAGE ( OpenSceneGraph COMPONENTS osgSim osgUtil osgDB osgFX osgGA osgTer
 #target_link_libraries(example ${PROJECT_NAME})
 rosbuild_add_executable(survey_trajectory src/makeTrajectory.cpp)
 TARGET_LINK_LIBRARIES(survey_trajectory ${OPENSCENEGRAPH_LIBRARIES})
+
+rosbuild_add_executable(make_survey src/make_survey.cpp)

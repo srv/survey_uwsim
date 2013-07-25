@@ -1,0 +1,26 @@
+<launch>
+
+	<node pkg="survey_UWSim" type="make_survey" name="make_survey" output="screen">
+		<param name="x" value="-6"/>
+		<param name="y" value="-6"/>
+		<param name="z" value="1"/>
+		<param name="yaw" value="0"/>
+		<param name="long_x" value="12"/>
+		<param name="long_y" value="12"/>
+		<param name="nx" value="4"/>
+		<param name="ny" value="4"/>
+		<param name="freq" value="30.0"/>
+
+		<param name="clockwise_turns" value="true"/>
+		<param name="positive_direction" value="true"/>
+		<param name="linear_acceleration" value="2.5"/>
+		<param name="linear_speed" value="5.0"/>
+		<param name="angular_acceleration" value="0.25"/>
+		<param name="angular_speed" value="0.5"/>
+
+		<remap from="pose_topic" to="/uwsim/girona500_odom"/>
+		<remap from="control_topic" to="/dataNavigator"/>
+
+	</node>
+
+</launch>

@@ -31,8 +31,14 @@ struct _position {
   double roll, pitch, yaw;
 };
 
-double quat2Yaw(double z, double w) {
-  return angles::normalize_angle(atan2(z, w) * 2.0);
+double quat2Yaw(double x, double y, double z, double w) {
+  double roll = std::atan2(2*y*w - 2*x*z, 1 - 2*y*y - 2*z*z);
+  double pitch = std::atan2(2*x*w - 2*y*z, 1 - 2*x*x - 2*z*z);
+  //double yaw = std::asin(2*x*y + 2*z*w);
+  
+  double yaw = angles::normalize_angle(atan2(z, w) * 2.0);
+  std::cout << "(R,P,Y) = (" << roll << "," << pitch << "," << yaw << ")" << std::endl;
+  return yaw;
 }
 
 void getWayPoints(double                  initX,
@@ -115,7 +121,9 @@ void vehiclePoseCallback(const nav_msgs::Odometry& odom) {
                  odom.pose.pose.orientation.z,
                  odom.pose.pose.orientation.w);
     totalDistance = (goalT - initialT).length();
-    currentYaw    = initialYaw = quat2Yaw(odom.pose.pose.orientation.z,
+    currentYaw    = initialYaw = quat2Yaw(odom.pose.pose.orientation.x,
+                                          odom.pose.pose.orientation.y,
+                                          odom.pose.pose.orientation.z,
                                           odom.pose.pose.orientation.w);
     std::cout << " Callback: currentYaw=" << currentYaw << " initialYaw=" <<
     initialYaw << " odomPose=" << odom.pose.pose.orientation.z << std::endl;
@@ -128,7 +136,9 @@ void vehiclePoseCallback(const nav_msgs::Odometry& odom) {
     currentAngleDiff = angles::shortest_angular_distance(goalYaw, currentYaw);
     firstpass        = true;
   } else {
-    currentYaw       = quat2Yaw(odom.pose.pose.orientation.z,
+    currentYaw       = quat2Yaw(odom.pose.pose.orientation.x,
+                                odom.pose.pose.orientation.y,
+                                odom.pose.pose.orientation.z,
                                 odom.pose.pose.orientation.w);
     currentAngleDiff = angles::shortest_angular_distance(currentYaw, goalYaw);
     std::cout << " Callback2: currentYaw=" << currentYaw << " initialYaw=" <<
